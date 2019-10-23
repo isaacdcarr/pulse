@@ -1,0 +1,15 @@
+.section {
+    width: 100%;
+}
+
+.section_title {
+    padding: 5px;
+    background-color: #0facd7;
+}
+
+.section_body {
+    display: inline;
+    /* visibility: hidden; */
+    position: relative;
+    top: -10px;
+}

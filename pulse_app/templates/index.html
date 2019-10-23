@@ -1,0 +1,60 @@
+<html>
+<head>
+  <title>{% block title %}Pulse{% endblock %}</title>
+  {% block head %}{% endblock %}
+  <link rel="icon" href="{{ url_for('static', filename='img/PULSE.png') }}">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  {% block nav %}
+    <div id="navbar">
+      <nav>
+          <div class="nav-wrapper" style="background-color: #0facd7;">
+            <a href="#" class="brand-logo">pulse</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li><a href="/patients">Patients</a></li>
+              <li><a href="/patients/past">Past patients</a></li>
+              <li><a href="/about">About</a></li>
+            </ul>
+          </div>
+        </nav>
+    </div>
+  {% endblock %}
+
+  <div id="main_container">
+    <div id="main_header">
+      <h1>
+        {% block main_header %}
+        {% endblock %}
+      </h1>
+    </div>
+    <div id="content">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+
+  {% block footer %}
+    <footer class="page-footer" id="footer">
+      <div class="row" style="text-align: center;">
+        This web application was built to contribute towards the completion of
+        my engineering thesis at UNSW.
+      </div>
+      <div class="footer-copyright" >
+        <div style="margin: 0 12%; width: 100%; text-align: center;">
+          © 2019
+          <a href="https://linkedin.com/in/isaacdcarr/" target="_blank" style="color: rgba(255,255,255,0.8);">
+            Isaac Carr
+          </a>
+        </div>
+      </div>
+    </footer>
+  {% endblock %}
+</body>
+</html>
