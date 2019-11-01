@@ -47,16 +47,17 @@ Acceptance criteria:
     *   Full name
     *   Date of birth
     *   Heart rate
-    *   Otis recommendation (if x-ray is presented)
-*
+    *   Otis recommendation & x-ray (if x-ray is presented)
+        *   If no x-ray, have a statement saying "No x-ray available".
 
 #### US1.4: Provide diagnosis
-> As a doctor, I want to see all the patients that I have provided a recommendation/diagnosis for so that I can review the case to better prepare myself for future cases.
+> As a doctor, I want to provide either a recommendation and/or a diagnosis so that the patient camn get the care they need.
 
 Priority: high,
 
 Acceptance criteria:
 *   ds
+
 ---
 ## ES2: HF
 > As a HF, I want to be able to upload health data for each of my patients and receive diagnosis and re
