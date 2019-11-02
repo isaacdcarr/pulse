@@ -6,32 +6,13 @@ import {
   Container,
   Grid,
   Link,
-  makeStyles,
   TextField,
   Typography,
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/Lock';
 
-const useStyles = makeStyles((theme) => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.primary.light,
-    },
-  },
-  card: {
-    backgroundColor: theme.palette.background.paper,
-    margin: theme.spacing(8),
-    padding: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-		alignItems: 'center',
-    borderRadius: theme.shape.borderRadius,
-	},
-	locked: {
-		color: theme.palette.primary,
-	}
-}));
-
+import useStyles from '../components/Styles';
+import DoctorForm from '../components/DoctorForm';
 
 function LoginPage() {
 

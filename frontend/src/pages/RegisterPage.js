@@ -1,56 +1,85 @@
-import React from 'react';
+import React, {useState} from 'react';
+import ReactDOM from 'react-dom';
 import {
   Avatar,
   Box,
   Button,
-  Container,
+	Container,
+	FormControl,
+	FormControlLabel,
+	FormLabel,
   Grid,
   Link,
-  makeStyles,
+	Radio,
+	RadioGroup,
   TextField,
   Typography,
 } from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import {
+	CountryDropdown,
+	RegionDropdown,
+} from 'react-country-region-selector-material-ui-new';
+import HowToRegIcon from '@material-ui/icons/HowToReg';
 
-const useStyles = makeStyles((theme) => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.primary.light,
-    },
-  },
-  card: {
-    backgroundColor: theme.palette.background.paper,
-    margin: theme.spacing(8),
-    padding: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-		alignItems: 'center',
-    borderRadius: theme.shape.borderRadius,
-	},
-	locked: {
-		color: theme.palette.primary,
-	}
-}));
-
+import useStyles from '../components/Styles';
+import DoctorForm from '../components/DoctorForm';
+import HFForm from '../components/HFForm';
 
 function RegisterPage() {
 
-	function handleSubmit(event) {
-
-	}
+	const [doctor, setDoctor] = useState(null);
+	const [country, setCountry] = useState("");
+	const [region, setRegion] = useState("");
 
 	const classes = useStyles();
+
+	function handleSubmit(event) {
+		// event.preventDefault();
+
+		// if ()
+	}
 
 	return (
 		<Container component="main" maxWidth="sm">
 			<Box boxShadow={3} className={classes.card}>
 				<Avatar>
-					<LockOutlinedIcon ccolor="primary" />
+					<HowToRegIcon color="primary" />
 				</Avatar>
 				<Typography variant="h4">
 					Register
 				</Typography>
+				<Typography variant="overline">
+					Welcome to pulse
+				</Typography>
 				<form onSubmit={handleSubmit}>
+					<br />
+					<FormControl component="fieldset" className={classes.formControl}>
+						<FormLabel component="legend">Are you a Doctor or a Health Facilitator?</FormLabel>
+						<RadioGroup aria-label="DoctorHF" name="DoctorHF" onChange={(val) => setDoctor(val.target.value == 'true')}>
+							<FormControlLabel value="true" control={<Radio />} label="Doctor" />
+							<FormControlLabel value="false" control={<Radio />} label="Health Facilitator" />
+						</RadioGroup>
+					</FormControl>
+					<br /><br />
+					<Typography variant="h5">
+						Basic details
+					</Typography>
+					<TextField
+					margin="normal"
+					id="first_name"
+					label="First name"
+					name="first_name"
+					type="text"
+					required
+					fullWidth />
+					<TextField
+					margin="normal"
+					id="last_name"
+					label="Last name"
+					name="last_name"
+					type="text"
+					required
+					fullWidth />
 					<TextField
 					margin="normal"
 					id="email"
@@ -62,19 +91,40 @@ function RegisterPage() {
 					<TextField
 					margin="normal"
 					id="password"
-					label="Password"
+					label="Enter a password"
 					name="password"
 					type="password"
 					required
 					fullWidth />
 					<TextField
 					margin="normal"
-					id="password"
-					label="Password"
-					name="password"
-					type="password"
+					id="repeat_password"
+					label="Enter password again"
+					name="repeat_password"
+					type="repeat_password"
 					required
 					fullWidth />
+
+					<br /><br />
+					<Typography variant="h5">
+						Where are you from?
+					</Typography>
+					<CountryDropdown
+					fullWidth
+					required
+					value={country}
+					onChange={(val) => setCountry(val)}/>
+					<RegionDropdown
+					fullWidth
+					required
+					country={country}
+					value={region}
+					onChange={(val) => setRegion(val)}/>
+					<br /><br />
+					{ doctor == null ? null
+					: doctor ? <DoctorForm /> : <HFForm />
+					}
+					{/* <div id="myForm"></div> */}
 					<Button
 					margin="normal"
 					type="submit"
@@ -82,19 +132,15 @@ function RegisterPage() {
 					color="primary"
 					variant="contained"
 					>
-						Log in
+						Register
 					</Button>
 					<Grid container direction="column" alignItems="center">
 						<Grid item>
 							<br />
 							<Link href="/login">
-								Register
-							</Link>
-						</Grid>
-						<Grid item>
-							<br />
-							<Link href="/forgot-password">
-								Reset password
+								Already have an account?
+								<br />
+								Log in
 							</Link>
 						</Grid>
 					</Grid>
