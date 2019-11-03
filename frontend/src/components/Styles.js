@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
       alignItems: 'center',
       borderRadius: theme.shape.borderRadius,
-      minWidth: 400,
+      minWidth: 450,
     }
   }));
 

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+	useState
+} from 'react';
 
 import {
   TextField,
@@ -6,6 +8,10 @@ import {
 } from '@material-ui/core';
 
 function HFForm() {
+	const [roleTitle, setRoleTitle] = useState("");
+	const [roleInstitution, setRoleInstitution] = useState("");
+	const [numPatients, setNumPatients] = useState(0);
+
 	return (
 		<div>
 			<br /><br />
@@ -18,6 +24,8 @@ function HFForm() {
 			label="Role title"
 			name="role-title"
 			type="text"
+			value={roleTitle}
+			onChange={val=>setRoleTitle(val.target.value)}
 			required
 			fullWidth />
 			<TextField
@@ -26,14 +34,23 @@ function HFForm() {
 			label="Work place"
 			name="role-instituion"
 			type="text"
+			value={roleInstitution}
+			onChange={val=>setRoleInstitution(val.target.value)}
 			required
 			fullWidth />
+			<br /><br />
+			<Typography variant="h5">
+				How many patients are in your care?
+			</Typography>
 			<TextField
 			margin="normal"
-			id="degree-city"
-			label="City"
-			name="degree-city"
-			type="text"
+			id="num-patients"
+			label="Number of patients"
+			name="num-patients"
+			type="number"
+			value={numPatients}
+			onChange={(val) => setNumPatients(val.target.value)}
+			inputProps={{min: "0", max: "5000", step: "10"}}
 			required
 			fullWidth />
 		</div>
