@@ -2,6 +2,8 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import './App.css';
+import './utils/axios';
+
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 

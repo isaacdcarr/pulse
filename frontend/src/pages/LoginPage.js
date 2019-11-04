@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+	useState
+} from 'react';
 import {
   Avatar,
   Box,
@@ -7,26 +9,41 @@ import {
   Grid,
   Link,
   TextField,
-  Typography,
+	Typography,
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/Lock';
+import axios from 'axios';
 
 import useStyles from '../components/Styles';
-import DoctorForm from '../components/DoctorForm';
 
 function LoginPage() {
 
-	function handleSubmit(event) {
-
-	}
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 
 	const classes = useStyles();
+
+	function handleSubmit(event) {
+		event.preventDefault();
+		console.log("Email:\t" + email);
+		console.log("Password:\t" + password);
+		axios.post(`http://localhost:5000/auth/login`, {email, password})
+		.then((response) => {
+			console.log("worked");
+			console.log(response);
+		})
+		.catch((err) => {
+			console.log("noooo");
+			console.log(err)
+		});
+		// axios.get(``)
+	}
 
 	return (
 		<Container component="main" maxWidth="sm">
 			<Box boxShadow={3} className={classes.card}>
 				<Avatar>
-					<LockOutlinedIcon filled color="action" />
+					<LockOutlinedIcon color="action" />
 				</Avatar>
 				<Typography variant="h4">
 					Log in
@@ -41,6 +58,8 @@ function LoginPage() {
 					label="Email"
 					name="email"
 					type="email"
+					value={email}
+					onChange={(event) => setEmail(event.target.value)}
 					required
 					fullWidth />
 					<TextField
@@ -49,6 +68,8 @@ function LoginPage() {
 					label="Password"
 					name="password"
 					type="password"
+					value={password}
+					onChange={(event) => setPassword(event.target.value)}
 					required
 					fullWidth />
 					<Button

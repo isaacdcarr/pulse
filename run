@@ -1,2 +1,9 @@
 #!/bin/bash
+echo "=== START BACKEND ===="
+cd backend
+python3 server.py
+cd ..
 
+echo "=== START FRONTEND ==="
+cd frontend
+npm start
