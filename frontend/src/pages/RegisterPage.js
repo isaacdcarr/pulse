@@ -21,6 +21,7 @@ import {
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
+import axios from 'axios';
 
 import useStyles from '../components/Styles';
 import DoctorForm from '../components/DoctorForm';
@@ -42,11 +43,31 @@ function RegisterPage() {
 	const classes = useStyles();
 
 	function handleSubmit(event) {
-
+		event.preventDefault();
 		if (doctor === null) {
 			alert("Please specify if you are a Doctor or a Health Facilitator");
 			return;
+		} else if (password != repeatPassword) {
+			alert("Passwords do not match");
+			return;
 		}
+
+		// if (doctor) {
+		// 	axios.post(`http://localhost:5000/register`, {firstName,
+		// 		lastName, password, phone, doctor, phone, city, region, country,
+		// 		roleTitle, roleInstitution, degreeTitle, degreeInstitution
+		// 	})
+		// 	.then((response) => {
+		// 		console.log("worked");
+		// 		console.log(response);
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log("noooo");
+		// 		console.log(err)
+		// 	});
+		// } else {
+
+		// }
 	}
 
 	return (

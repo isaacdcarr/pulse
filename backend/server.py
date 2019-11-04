@@ -1,46 +1,17 @@
 from flask import Flask, request
-from json import dumps
+from flask_restful import Resource, Api
 from flask_cors import CORS
 
-import sqlite3
-import atexit
-
-from model.user        import *
-from model.patient     import *
-from model.misc        import *
+from model.auth import Auth
+from model.register import Register
 
 app = Flask(__name__)
-
 CORS(app)
+api = Api(app)
 
-conn = sqlite3.connect('model/pulse.db')
-c = conn.cursor()
-
-def shutdown():
-	c.close()
-
-atexit.register(shutdown)
-
-@app.route("/", methods=["GET"])
-def index():
-	return dumps({})
-
-@app.route('/auth/login', methods=["POST"])
-def login():
-	email = request.json['email']
-	password = hash_password(request.json['password'])
-	(u_id, token) = check_password(c, email, password)
-
-	if u_id is None:
-		print("rip")
-		return dumps({})
-	else:
-		print("worked")
-		return dumps({
-			'u_id' : u_id,
-			'token' : token
-		})
+api.add_resource(Auth, '/auth')
+api.add_resource(Register, '/register')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+   app.run(debug=True)
 

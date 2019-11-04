@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS users(
     roleInstitution     TEXT NOT NULL,
     degreeTitle         TEXT,
     degreeInstitution   TEXT,
+    numPatients         INTEGER,
     numReviewed         INTEGER,
     numUploaded         INTEGER
 );
@@ -36,7 +37,7 @@ CREATE TABLE IF NOT EXISTS patients(
     FOREIGN KEY (reviewBy) REFERENCES users(id)
 );
 
-INSERT INTO users(firstName, lastName,email,phone,hashedPassword,isDoctor,city,region,country,roleTitle,roleInstitution,degreeTitle,degreeInstitution)
+INSERT INTO users(firstName,lastName,email,phone,hashedPassword,isDoctor,city,region,country,roleTitle,roleInstitution,degreeTitle,degreeInstitution)
 VALUES("Isaac","Carr","isaacdcarr@gmail.com","0",".",1,"","","","Doctor","lol","Med","UNSW");
 
 INSERT INTO patients(firstName,lastName,heartRate,oxySat,respRate,uploadBy)

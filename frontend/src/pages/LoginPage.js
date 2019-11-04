@@ -1,6 +1,7 @@
 import React, {
-	useState
+	useState,
 } from 'react';
+import {Route} from 'react-router-dom';
 import {
   Avatar,
   Box,
@@ -27,10 +28,11 @@ function LoginPage() {
 		event.preventDefault();
 		console.log("Email:\t" + email);
 		console.log("Password:\t" + password);
-		axios.post(`http://localhost:5000/auth/login`, {email, password})
+		axios.post(`http://localhost:5000/auth`, {email, password})
 		.then((response) => {
 			console.log("worked");
 			console.log(response);
+			window.open('')
 		})
 		.catch((err) => {
 			console.log("noooo");
