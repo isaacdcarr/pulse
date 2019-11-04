@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS patients(
     chestXray           BLOB,
     uploadTime          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     uploadBy            INTEGER NOT NULL,
-    reviewTime          TEXT,
+    reviewTime          TIMESTAMP,
     reviewBy            INTEGER,
     seekHelp            INTEGER,
     pneumoniaPresent    INTEGER,
