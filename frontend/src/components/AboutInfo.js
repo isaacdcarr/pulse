@@ -14,7 +14,6 @@ function AboutInfo() {
   const classes = useStyles();
   return (
     <Paper>
-      <div className={classes.overlay} />
       <Grid container>
         <Grid item md={6}>
           <div className={classes.mainFeaturedPostContent}>

@@ -30,6 +30,8 @@ import HFForm from '../components/HFForm';
 function RegisterPage() {
 
 	const [email, setEmail] = useState("");
+	const [invalidEmail, setInvalidEmail] = useState(false);
+	const [invalidEmailText, setInvalidEmailText] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [password, setPassword] = useState("");
@@ -39,6 +41,10 @@ function RegisterPage() {
 	const [country, setCountry] = useState("");
 	const [region, setRegion] = useState("");
 	const [city, setCity] = useState("");
+	const [degreeTitle, setDegreeTitle] = useState("");
+	const [degreeInstitution, setDegreeInstitution] = useState("");
+	const [roleTitle, setRoleTitle] = useState("");
+	const [roleInstitution, setRoleInstitution] = useState("");
 
 	const classes = useStyles();
 
@@ -52,22 +58,30 @@ function RegisterPage() {
 			return;
 		}
 
-		// if (doctor) {
-		// 	axios.post(`http://localhost:5000/register`, {firstName,
-		// 		lastName, password, phone, doctor, phone, city, region, country,
-		// 		roleTitle, roleInstitution, degreeTitle, degreeInstitution
-		// 	})
-		// 	.then((response) => {
-		// 		console.log("worked");
-		// 		console.log(response);
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log("noooo");
-		// 		console.log(err)
-		// 	});
-		// } else {
+		if (doctor) {
+			axios.post(`/register`, {
+				firstName, lastName, email, password,
+				doctor, phone,
+				city, region, country,
+				roleTitle, roleInstitution,
+				degreeTitle, degreeInstitution
+			})
+			.then((response) => {
+				if (response.data.success === "false") {
+					setInvalidEmail(true);
+					setInvalidEmailText("Email already taken");
+				document.getElementById("email").scrollIntoView();
+				} else {
+					alert("Success!")
+				}
+				console.log(response);
+			})
+			.catch((err) => {
+				console.log(err)
+			});
+		} else {
 
-		// }
+		}
 	}
 
 	return (
@@ -117,6 +131,8 @@ function RegisterPage() {
 						type="email"
 						value={email}
 						onChange={val=>setEmail(val.target.value)}
+						helperText={invalidEmailText}
+						error={invalidEmail}
 						required
 						fullWidth
 					/>
@@ -124,7 +140,7 @@ function RegisterPage() {
 					<PhoneInput
 						placeholder="Phone"
 						value={phone}
-						onChange={val=>setPhone(val.target.value)}
+						onChange={val=>setPhone(val)}
 					/>
 					<TextField
 						margin="normal"
@@ -190,7 +206,14 @@ function RegisterPage() {
 
 					<br /><br />
 					{ doctor === null ? null
-					: doctor ? <DoctorForm /> : <HFForm />
+					: doctor
+					? <DoctorForm
+						parentDT={setDegreeTitle}
+						parentDI={setDegreeInstitution}
+						parentRT={setRoleTitle}
+						parentRI={setRoleInstitution}
+					/>
+					: <HFForm />
 					}
 
 					<Button

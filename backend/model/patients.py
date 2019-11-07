@@ -2,8 +2,9 @@ from flask import request
 from flask_restful import Resource
 from json import dumps, loads
 import sqlite3
+from .data.healthItems import healthItems
 
-class Patient(Resource):
+class Patients(Resource):
    def get(self):
       conn = sqlite3.connect('model/data/pulse.db')
       c = conn.cursor()
@@ -29,4 +30,23 @@ class Patient(Resource):
          return dumps(toReturn)
 
       c.close()
+
+class IndividualPatient(Resource):
+   def get(self, pid):
+      conn = sqlite3.connect('model/data/pulse.db')
+      c = conn.cursor()
+      c.execute("""
+         SELECT *
+         FROM patients
+         WHERE id='%s'
+      """ % pid)
+      dbResult = c.fetchone()
+      print(dbResult)
+      c.close()
+
+      patientData = {}
+      for i, val in enumerate(healthItems):
+         patientData[val] = dbResult[i] if dbResult[i] is not None else ''
+
+      return patientData
 

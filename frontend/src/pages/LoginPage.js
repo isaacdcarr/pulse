@@ -29,11 +29,11 @@ function LoginPage() {
 		event.preventDefault();
 		console.log("Email:\t" + email);
 		console.log("Password:\t" + password);
-		axios.post(`http://localhost:5000/auth`, {email, password})
+		axios.post(`/auth`, {email, password})
 		.then((response) => {
 			console.log("worked");
 			console.log(response);
-			history.push('/register');
+			history.push('/patients');
 		})
 		.catch((err) => {
 			console.log("noooo");

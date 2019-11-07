@@ -9,7 +9,7 @@ import AllPatients from '../components/AllPatients';
 
 function PatientsPage() {
   const doctor = true;
-  const classes = useStyles();
+  // const classes = useStyles();
   const child = doctor
     ? <AllPatients />
     : <div>not doctor</div>;

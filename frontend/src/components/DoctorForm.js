@@ -8,8 +8,12 @@ import {
 } from '@material-ui/core';
 
 
-function DoctorForm() {
-
+function DoctorForm({
+	parentDT,
+	parentDI,
+	parentRT,
+	parentRI,
+}) {
 	const [degreeTitle, setDegreeTitle] = useState("");
 	const [degreeInstitution, setDegreeInstitution] = useState("");
 	const [roleTitle, setRoleTitle] = useState("");
@@ -28,7 +32,10 @@ function DoctorForm() {
 			name="degree-title"
 			type="text"
 			value={degreeTitle}
-			onChange={val=>setDegreeTitle(val.target.value)}
+			onChange={(val)=> {
+				setDegreeTitle(val.target.value);
+				parentDT(val.target.value);
+			}}
 			required
 			fullWidth />
 			<TextField
@@ -38,7 +45,10 @@ function DoctorForm() {
 			name="degree-instituion"
 			type="text"
 			value={degreeInstitution}
-			onChange={val=>setDegreeInstitution(val.target.value)}
+			onChange={val=>{
+				setDegreeInstitution(val.target.value);
+				parentDI(val.target.value);
+			}}
 			required
 			fullWidth />
 			<br /><br />
@@ -52,7 +62,10 @@ function DoctorForm() {
 			name="role-title"
 			type="text"
 			value={roleTitle}
-			onChange={val=>setRoleTitle(val.target.value)}
+			onChange={val=>{
+				setRoleTitle(val.target.value);
+				parentRT(val.target.value);
+			}}
 			required
 			fullWidth />
 			<TextField
@@ -62,7 +75,10 @@ function DoctorForm() {
 			name="role-institution"
 			type="text"
 			value={roleInstitution}
-			onChange={val=>setRoleInstitution(val.target.value)}
+			onChange={val=>{
+				setRoleInstitution(val.target.value);
+				parentRI(val.target.value);
+			}}
 			required
 			fullWidth />
 		</div>

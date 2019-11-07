@@ -9,15 +9,17 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import PatientsPage from './pages/PatientsPage';
 import AboutPage from './pages/AboutPage';
+import PatientProfilePage from './pages/PatientProfilePage';
 function App() {
   return (
     <div className="App">
      <Router history={history}>
        <Switch>
-        <Route exact path="/login"    render={(props) => {return <LoginPage />}}/>
-        <Route exact path="/register" render={(props) => {return <RegisterPage />}}/>
-        <Route exact path="/patients" render={(props) => {return <PatientsPage />}}/>
-        <Route exact path="/about"    render={(props) => {return <AboutPage />}}/>
+        <Route exact path="/login"          component={LoginPage} />
+        <Route exact path="/register"       render={RegisterPage}/>
+        <Route exact path="/patients"       render={PatientsPage}/>
+        <Route exact path="/patients/:pid"  render={PatientProfilePage}/>
+        <Route exact path="/about"          render={AboutPage}/>
        </Switch>
      </Router>
     </div>

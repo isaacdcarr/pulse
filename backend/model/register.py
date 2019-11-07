@@ -8,9 +8,10 @@ class Register(Resource):
       conn = sqlite3.connect('model/data/pulse.db')
       c = conn.cursor()
 
-      rows = c.execute("select count(*) from users where email='%s" % request.json['email'])
-      if len(rows) > 0:
-         return dumps({'success': 'false'})
+      print(request)
+      c.execute("select count(*) from users where email='%s'" % request.json['email'])
+      if c.fetchone()[0] > 0:
+         return {"success": "false"}
 
       password = hash_password(request.json['password'])
       print(request.json)
