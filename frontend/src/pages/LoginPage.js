@@ -16,6 +16,7 @@ import LockOutlinedIcon from '@material-ui/icons/Lock';
 import axios from 'axios';
 
 import useStyles from '../components/Styles';
+import history from '../utils/history';
 
 function LoginPage() {
 
@@ -32,11 +33,11 @@ function LoginPage() {
 		.then((response) => {
 			console.log("worked");
 			console.log(response);
-			window.open('')
+			history.push('/register');
 		})
 		.catch((err) => {
 			console.log("noooo");
-			console.log(err)
+			console.log(err);
 		});
 		// axios.get(``)
 	}

@@ -42,3 +42,6 @@ VALUES("Isaac","Carr","isaacdcarr@gmail.com","0",".",1,"","","","Doctor","lol","
 
 INSERT INTO patients(firstName,lastName,heartRate,oxySat,respRate,uploadBy)
 VALUES("Lara","Coleman",0,9,9,1);
+
+INSERT INTO patients(firstName,lastName,heartRate,oxySat,respRate,uploadBy)
+VALUES("Kenji","Brameld",0,10,10,1);

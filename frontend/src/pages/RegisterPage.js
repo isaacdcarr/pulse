@@ -47,7 +47,7 @@ function RegisterPage() {
 		if (doctor === null) {
 			alert("Please specify if you are a Doctor or a Health Facilitator");
 			return;
-		} else if (password != repeatPassword) {
+		} else if (password !== repeatPassword) {
 			alert("Passwords do not match");
 			return;
 		}
@@ -88,61 +88,66 @@ function RegisterPage() {
 						Basic details
 					</Typography>
 					<TextField
-					margin="normal"
-					id="first_name"
-					label="First name"
-					name="first_name"
-					type="text"
-					value={firstName}
-					onChange={val=>setFirstName(val.target.value)}
-					required
-					fullWidth />
-					<TextField
-					margin="normal"
-					id="last_name"
-					label="Last name"
-					name="last_name"
-					type="text"
-					value={lastName}
-					onChange={val=>setLastName(val.target.value)}
-					required
-					fullWidth />
-					<TextField
-					margin="normal"
-					id="email"
-					label="Email"
-					name="email"
-					type="email"
-					value={email}
-					onChange={val=>setEmail(val.target.value)}
-					required
-					fullWidth />
-					<br /><br />
-					<PhoneInput
-					placeholder="Phone"
-					value={phone}
-					onChange={val=>setPhone(val.target.value)}
+						margin="normal"
+						id="first_name"
+						label="First name"
+						name="first_name"
+						type="text"
+						value={firstName}
+						onChange={val=>setFirstName(val.target.value)}
+						required
+						fullWidth
 					/>
 					<TextField
-					margin="normal"
-					id="password"
-					label="Enter a password"
-					name="password"
-					type="password"
-					value={password}
-					onChange={val=>setPassword(val.target.value)}
-					required
-					fullWidth />
+						margin="normal"
+						id="last_name"
+						label="Last name"
+						name="last_name"
+						type="text"
+						value={lastName}
+						onChange={val=>setLastName(val.target.value)}
+						required
+						fullWidth
+					/>
 					<TextField
-					margin="normal"
-					id="repeat_password"
-					label="Enter password again"
-					name="repeat_password"
-					type="repeat_password"
-					value={repeatPassword}
-					onChange={val=>setRepeatPassword(val.target.value)}
-					required
-					fullWidth />
+						margin="normal"
+						id="email"
+						label="Email"
+						name="email"
+						type="email"
+						value={email}
+						onChange={val=>setEmail(val.target.value)}
+						required
+						fullWidth
+					/>
+					<br /><br />
+					<PhoneInput
+						placeholder="Phone"
+						value={phone}
+						onChange={val=>setPhone(val.target.value)}
+					/>
+					<TextField
+						margin="normal"
+						id="password"
+						label="Enter a password"
+						name="password"
+						type="password"
+						value={password}
+						onChange={val=>setPassword(val.target.value)}
+						required
+						fullWidth
+					/>
+					<TextField
+						margin="normal"
+						id="repeat_password"
+						label="Enter password again"
+						name="repeat_password"
+						type="repeat_password"
+						value={repeatPassword}
+						onChange={val=>setRepeatPassword(val.target.value)}
+						required
+						fullWidth
+					/>
 
 					<br /><br />
 					<Typography variant="h5">
