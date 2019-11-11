@@ -13,9 +13,9 @@ import profilePic from '../static/img/profile.jpg';
 function AboutInfo() {
   const classes = useStyles();
   return (
-    <Paper>
+    <Paper >
       <Grid container>
-        <Grid item md={6}>
+        <Grid item xl={6}>
           <div className={classes.mainFeaturedPostContent}>
             <Typography component="h1" variant="h3" color="inherit" gutterBottom>
               About Pulse

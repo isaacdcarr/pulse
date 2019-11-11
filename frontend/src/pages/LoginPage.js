@@ -1,14 +1,14 @@
 import React, {
 	useState,
 } from 'react';
-import {Route} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import {
   Avatar,
   Box,
   Button,
   Container,
   Grid,
-  Link,
+	Paper,
   TextField,
 	Typography,
 } from '@material-ui/core';
@@ -17,29 +17,36 @@ import axios from 'axios';
 
 import useStyles from '../components/Styles';
 import history from '../utils/history';
+import { useAuth } from '../utils/auth';
 
-function LoginPage() {
-
+function LoginPage(props) {
+	const [loggedIn, setLoggedin] = useState(false);
+	const [err, setErr] = useState(false);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const { setAuthTokens } = useAuth();
 
 	const classes = useStyles();
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		console.log("Email:\t" + email);
-		console.log("Password:\t" + password);
+
 		axios.post(`/auth`, {email, password})
 		.then((response) => {
-			console.log("worked");
-			console.log(response);
-			history.push('/patients');
+			if (response.status === 200) {
+				setAuthTokens(response.data.u_id, response.data.doctor, response.data.token);
+				setLoggedin(true);
+			} else {
+				setErr(true);
+			}
 		})
 		.catch((err) => {
-			console.log("noooo");
-			console.log(err);
+			setErr(true);
 		});
-		// axios.get(``)
+	}
+
+	if (loggedIn) {
+		return <Redirect to="/patients" />;
 	}
 
 	return (
@@ -54,6 +61,17 @@ function LoginPage() {
 				<Typography variant="overline">
 					Welcome to pulse
 				</Typography>
+				{err &&
+				<Paper
+				style={{
+					color: '#ffebee',
+					padding: '2%',
+					backgroundColor: '#f44336' }}>
+					<Typography
+						>
+						Invalid username and password combination
+					</Typography>
+				</Paper>}
 				<form onSubmit={handleSubmit}>
 					<TextField
 					margin="normal"

@@ -1,7 +1,7 @@
 import React, {
   useState
 } from 'react';
-
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {
@@ -9,7 +9,6 @@ import {
   CssBaseline,
   Drawer,
   Grid,
-  GridItem,
   Hidden,
   IconButton,
   List,
@@ -17,7 +16,6 @@ import {
   ListItemText,
   Menu,
   MenuItem,
-  Paper,
   Toolbar,
   Typography
 } from '@material-ui/core';
@@ -28,13 +26,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { useTheme } from '@material-ui/core/styles';
 import useStyles from './Styles';
+import { useAuth } from '../utils/auth';
 
 function ResponsiveDrawer(props) {
 
-  // const dummyCategories = ['Hokusai', 'Hiroshige', 'Utamaro', 'Kuniyoshi', 'Yoshitoshi']
-
-
-  const categories = props.doctor
+  const { setAuthTokens } = useAuth();
+  const [loggedOut, setLoggedOut] = useState(false);
+  const categories = localStorage.getItem('doctor')
     ? {'Patients' : '/patients',
       'Past Patients': '/patients/past',
       'About' : '/about'
@@ -72,6 +70,14 @@ function ResponsiveDrawer(props) {
       </List>
     </div>
   );
+
+  console.log("LoggedOut " + loggedOut);
+  if (loggedOut) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('u_id');
+    localStorage.removeItem('doctor');
+    return <Redirect to="/login" />;
+  }
 
   return (
     <div className={classes.root}>
@@ -116,7 +122,7 @@ function ResponsiveDrawer(props) {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>Log out</MenuItem>
+                <MenuItem onClick={() => { setLoggedOut(true)} }>Log out</MenuItem>
               </Menu>
             </div>
         </Toolbar>
