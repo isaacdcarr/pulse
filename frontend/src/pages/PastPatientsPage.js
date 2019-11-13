@@ -3,10 +3,10 @@ import React from 'react';
 import ResponsiveDrawer from '../components/ResponsiveDrawer';
 import AllPatients from '../components/AllPatients';
 
-function PatientsPage(props) {
+function PastPatientsPage(props) {
 	return (
-    <ResponsiveDrawer child={<AllPatients past={false} />}/>
+    <ResponsiveDrawer child={<AllPatients past={true} />}/>
   );
 }
 
-export default PatientsPage;
+export default PastPatientsPage;

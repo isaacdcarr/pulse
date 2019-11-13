@@ -12,6 +12,7 @@ import PrivateRoute from './PrivateRoute';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import PatientsPage from './pages/PatientsPage';
+import PastPatientsPage from './pages/PastPatientsPage';
 import AboutPage from './pages/AboutPage';
 import PatientProfilePage from './pages/PatientProfilePage';
 
@@ -32,11 +33,12 @@ function App(props) {
       <div className="App">
         <Router history={history}>
           <Switch>
-            <Route exact path="/login"           component={LoginPage} />
-            <Route path="/register"              component={RegisterPage}/>
-            <PrivateRoute exact path="/patients"       component={PatientsPage}/>
-            <PrivateRoute path="/patients/:pid"  component={PatientProfilePage}/>
-            <PrivateRoute path="/about"          component={AboutPage}/>
+            <Route exact path="/login" component={LoginPage} />
+            <Route path="/register" component={RegisterPage}/>
+            <PrivateRoute exact path="/patients" component={PatientsPage}/>
+            <PrivateRoute exact path="/patients/past" component={PastPatientsPage}/>
+            <PrivateRoute path="/patients/:pid" component={PatientProfilePage}/>
+            <PrivateRoute path="/about" component={AboutPage}/>
           </Switch>
         </Router>
       </div>

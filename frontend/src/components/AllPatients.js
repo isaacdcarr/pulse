@@ -13,18 +13,23 @@ import {
 import axios from 'axios';
 
 import useStyles from '../components/Styles';
+import { useTheme } from '@material-ui/core/styles';
 
-function AllPatients() {
-  const doctor = true;
+function AllPatients({ past }) {
+  const u_id = localStorage.getItem("u_id");
+  const token = localStorage.getItem("token");
   const [patients, setPatients] = useState(null);
 
   const classes = useStyles();
+  const theme = useTheme();
 
   useEffect(() => {
     // Update the document title using the browser API
-    axios.get(`http://localhost:5000/patients`,{
+    const url = past ? '/patients/past' : '/patients';
+    axios.get(url,{
       params : {
-        doctor
+        u_id,
+        token
       }
     })
     .then((response) => {
@@ -37,6 +42,7 @@ function AllPatients() {
       console.log("noooo");
       console.log(err);
     });
+
   }, []);
 
   return (
@@ -64,7 +70,17 @@ function AllPatients() {
           ))}
         </TableBody>
       </Table>
-      : <div>No patients available</div>
+      : <div
+          style={{
+            padding: theme.spacing(3)
+          }}
+        >
+          {
+            past
+            ? <div>No patients reviewed yet.</div>
+            : <div>No patients available.</div>
+          }
+        </div>
       }
     </Paper>
   );

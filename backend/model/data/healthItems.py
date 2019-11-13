@@ -1,4 +1,5 @@
-healthItems = ['id',\
+healthItems = [\
+   'id',\
    'firstName',\
    'lastName',\
    'heartRate',\
@@ -8,7 +9,6 @@ healthItems = ['id',\
    'uploadBy',\
    'reviewTime',\
    'reviewBy',\
-   'chestXray',\
    'seekHelp',\
    'pneumoniaPresent',\
    'doctorNote',\

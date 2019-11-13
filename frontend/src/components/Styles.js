@@ -57,10 +57,12 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     overflowX: 'auto',
   },
-
   mainFeaturedPostContent: {
     position: 'relative',
     padding: theme.spacing(3),
+  },
+  second : {
+    backgroundColor: theme.palette.primary.light,
   },
 }));
 
