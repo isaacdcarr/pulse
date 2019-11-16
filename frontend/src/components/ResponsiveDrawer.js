@@ -32,12 +32,14 @@ function ResponsiveDrawer(props) {
 
   const { setAuthTokens } = useAuth();
   const [loggedOut, setLoggedOut] = useState(false);
-  const categories = localStorage.getItem('doctor')
-    ? {'Patients' : '/patients',
-      'Past Patients': '/patients/past',
+  const isDoctor = (localStorage.getItem('doctor') == "1");
+  const categories = isDoctor
+    ? {'Patients to review' : '/patients',
+      'Patients reviewed': '/patients/past',
       'About' : '/about'
     } : {
-      'Patients' : '/patients',
+      'Patients Uploaded' : '/patients',
+      'Upload patient data' : '/patients/new',
       'About' : '/about'
     };
   const classes = useStyles();
@@ -71,7 +73,6 @@ function ResponsiveDrawer(props) {
     </div>
   );
 
-  console.log("LoggedOut " + loggedOut);
   if (loggedOut) {
     localStorage.removeItem('token');
     localStorage.removeItem('u_id');
@@ -93,7 +94,7 @@ function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title} now>
+          <Typography variant="h6" className={classes.title}>
             Pulse
           </Typography>
           <div>

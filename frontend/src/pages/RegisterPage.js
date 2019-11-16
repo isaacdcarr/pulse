@@ -45,10 +45,11 @@ function RegisterPage() {
 	const [degreeInstitution, setDegreeInstitution] = useState("");
 	const [roleTitle, setRoleTitle] = useState("");
 	const [roleInstitution, setRoleInstitution] = useState("");
-
+	const [numPatients, setNumPatients] = useState(0);
 	const classes = useStyles();
 
 	function handleSubmit(event) {
+		console.log("hereee");
 		event.preventDefault();
 		if (doctor === null) {
 			alert("Please specify if you are a Doctor or a Health Facilitator");
@@ -67,6 +68,7 @@ function RegisterPage() {
 				degreeTitle, degreeInstitution
 			})
 			.then((response) => {
+				console.log(response);
 				if (response.data.success === "false") {
 					setInvalidEmail(true);
 					setInvalidEmailText("Email already taken");
@@ -74,13 +76,30 @@ function RegisterPage() {
 				} else {
 					alert("Success!")
 				}
-				console.log(response);
 			})
 			.catch((err) => {
 				console.log(err)
 			});
 		} else {
-
+			axios.post(`/register`, {
+				firstName, lastName, email, password,
+				doctor, phone,
+				city, region, country,
+				roleTitle, roleInstitution
+			})
+			.then((response) => {
+				console.log(response);
+				if (response.data.success === "false") {
+					setInvalidEmail(true);
+					setInvalidEmailText("Email already taken");
+				document.getElementById("email").scrollIntoView();
+				} else {
+					alert("Success!")
+				}
+			})
+			.catch((err) => {
+				console.log(err)
+			});
 		}
 	}
 
@@ -206,14 +225,18 @@ function RegisterPage() {
 
 					<br /><br />
 					{ doctor === null ? null
-					: doctor
+					: doctor === true
 					? <DoctorForm
 						parentDT={setDegreeTitle}
 						parentDI={setDegreeInstitution}
 						parentRT={setRoleTitle}
 						parentRI={setRoleInstitution}
 					/>
-					: <HFForm />
+					: <HFForm
+						parentRT={setRoleTitle}
+						parentRI={setRoleInstitution}
+						parentNP={setNumPatients}
+					/>
 					}
 
 					<Button

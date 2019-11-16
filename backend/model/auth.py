@@ -26,3 +26,6 @@ class Auth(Resource):
          abort(400)
 
 
+class Register(Resource):
+   def post(self):
+      email = []

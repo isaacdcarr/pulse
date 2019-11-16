@@ -5,11 +5,17 @@ healthItems = [\
    'heartRate',\
    'oxySat',\
    'respRate',\
+   'indrawing',\
+   'wheezing',\
+   'crackling',\
+   'diffBreath',\
+   'fever',\
+   'hfNote',\
    'uploadTime',\
    'uploadBy',\
    'reviewTime',\
    'reviewBy',\
    'seekHelp',\
-   'pneumoniaPresent',\
+   'pneuPresent',\
    'doctorNote',\
 ]

@@ -2,6 +2,7 @@ from flask import request
 from flask_restful import Resource
 from json import dumps, loads
 import sqlite3
+from .misc import hash_password
 
 class Register(Resource):
    def post(self):
@@ -15,7 +16,7 @@ class Register(Resource):
 
       password = hash_password(request.json['password'])
       print(request.json)
-      if request.json['doctor'] == 'true':
+      if request.json['doctor'] == True:
          cmd = """
          INSERT INTO users(
             firstName, lastName,
@@ -24,44 +25,51 @@ class Register(Resource):
             city, region, country,
             roleTitle, roleInstitution,
             degreeTitle, degreeInstitution
-         )"""
-         values = f"values(\
-            {request.json['firstName']},\
-            {request.json['lastName']},\
-            {request.json['email']},\
-            {request.json['phone']}, \
+         )
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+         values = (\
+            request.json['firstName'],\
+            request.json['lastName'],\
+            request.json['email'],\
+            request.json['phone'], \
+            password,\
             1,\
-            {request.json['city']},\
-            {request.json['region']},\
-            {request.json['country']},\
-            {request.json['roleTitle']},\
-            {request.json['roleInstitution']},\
-            {request.json['degreeTitle']},\
-            {request.json['degreeInstitution']},\
-            )"
+            request.json['city'],\
+            request.json['region'],\
+            request.json['country'],\
+            request.json['roleTitle'],\
+            request.json['roleInstitution'],\
+            request.json['degreeTitle'],\
+            request.json['degreeInstitution'],\
+            )
+         print("\nValues are:\n" + str(values))
       else:
          cmd = """
          INSERT INTO users(
-            firstName, slastName,
+            firstName, lastName,
             email, phone,
             hashedPassword, isDoctor,
             city, region, country,
-            roleTitle, roleInstitution
-         )"""
-         values = f"values(\
-            {request.json['firstName']},\
-            {request.json['lastName']},\
-            {request.json['email']},\
-            {request.json['phone']}, \
+            roleTitle, roleInstitution,
+            numPatients
+         )
+         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+         values = (\
+            request.json['firstName'],\
+            request.json['lastName'],\
+            request.json['email'],\
+            request.json['phone'], \
+            password,\
             0,\
-            {request.json['city']},\
-            {request.json['region']},\
-            {request.json['country']},\
-            {request.json['roleTitle']},\
-            {request.json['roleInstitution']},\
-            {request.json['numPatients']},\
-            )"
-      c.execute(cmd+values)
+            request.json['city'],\
+            request.json['region'],\
+            request.json['country'],\
+            request.json['roleTitle'],\
+            request.json['roleInstitution'],\
+            0)
+         #{request.json['numPatients']},\
+      c.execute(cmd, values)
+      conn.commit()
       conn.close()
 
       return dumps({'success': 'true'})

@@ -16,7 +16,6 @@ import LockOutlinedIcon from '@material-ui/icons/Lock';
 import axios from 'axios';
 
 import useStyles from '../components/Styles';
-import history from '../utils/history';
 import { useAuth } from '../utils/auth';
 
 function LoginPage(props) {
@@ -105,7 +104,7 @@ function LoginPage(props) {
 					<Grid container direction="column" alignItems="center">
 						<Grid item>
 							<br />
-							<Link href="/register">
+							<Link to="/register">
 								Register
 							</Link>
 						</Grid>

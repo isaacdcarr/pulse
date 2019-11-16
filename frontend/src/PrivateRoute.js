@@ -4,7 +4,6 @@ import { useAuth } from "./utils/auth";
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { authTokens } = useAuth();
-  console.log("AuthTokens: " + JSON.stringify(authTokens));
   return (
     <Route
       {...rest}

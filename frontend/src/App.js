@@ -1,7 +1,7 @@
 import React, {
   useState
 } from 'react';
-import {Redirect, Router, Route, Switch} from 'react-router-dom';
+import {Router, Route, Switch} from 'react-router-dom';
 
 import './App.css';
 import './utils/axios';
@@ -15,6 +15,8 @@ import PatientsPage from './pages/PatientsPage';
 import PastPatientsPage from './pages/PastPatientsPage';
 import AboutPage from './pages/AboutPage';
 import PatientProfilePage from './pages/PatientProfilePage';
+import IndexPage from './pages/IndexPage';
+import UploadPatientPage from './pages/UploadPatientPage';
 
 function App(props) {
   const [authTokens, setAuthTokens] = useState(
@@ -33,12 +35,15 @@ function App(props) {
       <div className="App">
         <Router history={history}>
           <Switch>
+            <Route exact path="/" component={IndexPage} />
             <Route exact path="/login" component={LoginPage} />
-            <Route path="/register" component={RegisterPage}/>
-            <PrivateRoute exact path="/patients" component={PatientsPage}/>
-            <PrivateRoute exact path="/patients/past" component={PastPatientsPage}/>
-            <PrivateRoute path="/patients/:pid" component={PatientProfilePage}/>
-            <PrivateRoute path="/about" component={AboutPage}/>
+            <Route path="/register" component={RegisterPage} />
+            <PrivateRoute exact path="/patients" component={PatientsPage} />
+            <PrivateRoute exact path="/patients/past" component={PastPatientsPage} />
+            <PrivateRoute exact path="/patients/new" component={UploadPatientPage} />
+            <PrivateRoute path="/patients/:pid" component={PatientProfilePage} />
+            <PrivateRoute path="/about" component={AboutPage} />
+
           </Switch>
         </Router>
       </div>

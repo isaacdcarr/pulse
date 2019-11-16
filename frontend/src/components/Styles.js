@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     backgroundColor: theme.palette.background.paper,
-    margin: theme.spacing(8),
-    padding: theme.spacing(8),
+    margin: theme.spacing(4),
+    padding: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
