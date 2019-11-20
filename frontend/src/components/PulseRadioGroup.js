@@ -32,6 +32,7 @@ function PulseRadioGroup(props) {
                 control={<Radio />}
                 label={props.options[key]}
                 checked={props.parentVal === key}
+                disabled={props.disabled}
               />
             )}
           </RadioGroup>

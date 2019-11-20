@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users(
     firstName           TEXT NOT NULL,
     lastName            TEXT NOT NULL,
     email               TEXT NOT NULL UNIQUE,
-    phone               TEXT UNIQUE,
+    phone               TEXT,
     hashedPassword      TEXT NOT NULL,
     isDoctor            INTEGER NOT NULL,
     city                TEXT NOT NULL,
@@ -44,17 +44,18 @@ CREATE TABLE IF NOT EXISTS patients(
 CREATE TABLE IF NOT EXISTS xrays(
     id                  INTEGER PRIMARY KEY,
     xray                BLOB,
+    otisDiagnosis       INTEGER,
     FOREIGN KEY (id) REFERENCES patients(id)
 );
 
 -- HF
 -- 9737d037ffdaadd153a8709c46276bcb = . not hashed
 INSERT INTO users(firstName,lastName,email,phone,hashedPassword,isDoctor,city,region,country,roleTitle,roleInstitution)
-VALUES("James","Smith","james.smith@gmail.com","+61412345678","9737d037ffdaadd153a8709c46276bcb",0,"Sydney","NSW","Australia","Teacher","Xavier Catholic College, Ballina");
+VALUES("James","Smith","j@s.com","+61412345678","9737d037ffdaadd153a8709c46276bcb",0,"Sydney","NSW","Australia","Teacher","Xavier Catholic College, Ballina");
 
 -- Doctors
 INSERT INTO users(firstName,lastName,email,phone,hashedPassword,isDoctor,city,region,country,roleTitle,roleInstitution,degreeTitle,degreeInstitution)
-VALUES("Isaac","Carr","isaacdcarr@gmail.com","+3232","9737d037ffdaadd153a8709c46276bcb",1,"","","","Doctor","lol","Med","UNSW");
+VALUES("Isaac","Carr","i@c.com","+3232","9737d037ffdaadd153a8709c46276bcb",1,"","","","Doctor","lol","Med","UNSW");
 
 -- Patients
 -- INSERT INTO patients(firstName,lastName,heartRate,oxySat,respRate,uploadBy,uploadTime)

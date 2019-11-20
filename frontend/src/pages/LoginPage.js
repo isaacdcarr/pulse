@@ -1,5 +1,6 @@
 import React, {
 	useState,
+	useEffect,
 } from 'react';
 import {Redirect, Link} from 'react-router-dom';
 import {
@@ -26,6 +27,16 @@ function LoginPage(props) {
 	const { setAuthTokens } = useAuth();
 
 	const classes = useStyles();
+
+	useEffect(() => {
+		console.log(props);
+		if (props.location.email) {
+			setEmail(props.location.email['email']);
+		}
+		if (props.location.password) {
+			setPassword(props.location.password['password']);
+		}
+	},[]);
 
 	function handleSubmit(event) {
 		event.preventDefault();

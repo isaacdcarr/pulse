@@ -1,2 +1,3 @@
 .vscode/
-venv/
+backend/model/otis/
+backend/venv/

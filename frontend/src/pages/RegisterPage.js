@@ -8,15 +8,18 @@ import {
 	FormControlLabel,
 	FormLabel,
   Grid,
-  Link,
+	Link,
+	MenuItem,
 	Radio,
 	RadioGroup,
   TextField,
   Typography,
 } from '@material-ui/core';
+import {Redirect} from 'react-router-dom';
 import {
 	CountryDropdown,
 	RegionDropdown,
+	CountryRegionData
 } from 'react-country-region-selector-material-ui-new';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import 'react-phone-number-input/style.css';
@@ -27,7 +30,7 @@ import useStyles from '../components/Styles';
 import DoctorForm from '../components/DoctorForm';
 import HFForm from '../components/HFForm';
 
-function RegisterPage() {
+function RegisterPage(props) {
 
 	const [email, setEmail] = useState("");
 	const [invalidEmail, setInvalidEmail] = useState(false);
@@ -38,18 +41,18 @@ function RegisterPage() {
 	const [repeatPassword, setRepeatPassword] = useState("");
 	const [doctor, setDoctor] = useState(null);
 	const [phone, setPhone] = useState("");
-	const [country, setCountry] = useState("");
-	const [region, setRegion] = useState("");
+	const [country, setCountry] = useState("Australia");
+	const [region, setRegion] = useState("New South Wales");
 	const [city, setCity] = useState("");
 	const [degreeTitle, setDegreeTitle] = useState("");
 	const [degreeInstitution, setDegreeInstitution] = useState("");
 	const [roleTitle, setRoleTitle] = useState("");
 	const [roleInstitution, setRoleInstitution] = useState("");
 	const [numPatients, setNumPatients] = useState(0);
+	const [redir, setRedir] = useState(false);
 	const classes = useStyles();
 
 	function handleSubmit(event) {
-		console.log("hereee");
 		event.preventDefault();
 		if (doctor === null) {
 			alert("Please specify if you are a Doctor or a Health Facilitator");
@@ -74,7 +77,8 @@ function RegisterPage() {
 					setInvalidEmailText("Email already taken");
 				document.getElementById("email").scrollIntoView();
 				} else {
-					alert("Success!")
+					alert("Success!");
+					setRedir(true);
 				}
 			})
 			.catch((err) => {
@@ -92,15 +96,25 @@ function RegisterPage() {
 				if (response.data.success === "false") {
 					setInvalidEmail(true);
 					setInvalidEmailText("Email already taken");
-				document.getElementById("email").scrollIntoView();
+					document.getElementById("email").scrollIntoView();
 				} else {
-					alert("Success!")
+					alert("Success!");
+					setRedir(true);
 				}
 			})
 			.catch((err) => {
 				console.log(err)
 			});
 		}
+	}
+
+	if (redir) {
+		console.log("here");
+		return <Redirect to={{
+			pathname: '/login',
+			email: {email},
+			password:{password},
+		}}/>;
 	}
 
 	return (
@@ -210,7 +224,6 @@ function RegisterPage() {
 					onChange={val=>setCity(val.target.value)}
 					required
 					fullWidth />
-
 					<br /><br />
 					<Typography variant="h5">
 						Are you a Doctor or a Health Facilitator?
@@ -222,7 +235,6 @@ function RegisterPage() {
 							<FormControlLabel value="false" control={<Radio />} label="Health Facilitator" />
 						</RadioGroup>
 					</FormControl>
-
 					<br /><br />
 					{ doctor === null ? null
 					: doctor === true

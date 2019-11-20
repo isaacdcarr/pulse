@@ -5,6 +5,7 @@ import React, {
 import {
   Box,
   Button,
+  CircularProgress,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -36,6 +37,10 @@ function Profile(props) {
   var pics = [];
   const u_id = localStorage.getItem("u_id");
   const token = localStorage.getItem("token");
+  const doctor = (localStorage.getItem("doctor") == "1");
+
+  const [xrayLoading, isXrayLoading] = useState(false);
+
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [heartRate, setHeartRate] = useState(null);
@@ -97,7 +102,8 @@ function Profile(props) {
       var img = new Image();
       var resp = response.data.xray;
       if (resp !== "") {
-        img.src = 'data:image/png;base64,' + resp.substring(2, resp.length-1);
+        console.log("resp not null img");
+        img.src = 'data:image/jpeg;base64,' + resp.substring(2, resp.length-1);
         setChestXray(img.src);
       }
     })
@@ -107,24 +113,16 @@ function Profile(props) {
   }, []);
 
   function onDrop(picture) {
-    console.log(picture);
-    // var reader = new FileReader();
-    // reader.onloadend = function() {
-    //   var dataURL = this.result;
-    //   setChestXray(dataURL);
-    //   console.log(dataURL);
-    // }
-    // reader.readAsDataURL(picture[0]);
     let formData = new FormData();
     formData.append("chestXray",picture[0],picture[0].name);
 
     axios.post(`/xray/${props.pid}`, formData)
-      .then((resp)=>{
-        console.log(resp);
-      })
-      .catch((err)=> {
-        console.log(err);
-      });
+    .then((resp)=>{
+      console.log(resp);
+    })
+    .catch((err)=> {
+      console.log(err);
+    });
   }
 
   function handleSubmit(event) {
@@ -311,19 +309,27 @@ function Profile(props) {
             />
           </div>
           :
-          <Box id="xrayContainer" style={{
+          <div style={{
             display: 'flex',
             justifyContent:'center',
             alignItems:'center'
           }}>
+          <Paper id="xrayContainer" style={{
+            backgroundColor: theme.palette.primary.light,
+            minWidth: '60%',
+            maxWidth: '80%',
+            padding: '5%'
+          }}>
+            {xrayLoading && <CircularProgress />}
             <img
               alt="Chest X-ray"
               src={chestXray}
               style={{
-                maxWidth: '50%'
+                maxWidth: '100%'
               }}
             />
-          </Box>
+          </Paper>
+          </div>
         }
         <Table style={{
           maxWidth: '90%',
@@ -383,6 +389,7 @@ function Profile(props) {
               'no' : 'No, the patient does not have pneumonia',
               'unsure' : 'Cannot provide diagnosis from available data'
             }}
+            disabled={!doctor}
           />
           <PulseRadioGroup
             parentSet={setSeekHelp}
@@ -393,6 +400,7 @@ function Profile(props) {
               'no' : "No, I believe the patient's condition is not severe",
               'unsure' : 'Cannot provide recommendation from available data'
             }}
+            disabled={!doctor}
           />
           <br /><br />
           <Paper style={{padding: '5%'}}>
@@ -410,6 +418,7 @@ function Profile(props) {
               InputLabelProps={doctorNote ? {shrink: true} : ""}
               required
               fullWidth
+              disabled={!doctor}
             />
           </Paper>
           <br /><br />

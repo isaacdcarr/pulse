@@ -52,7 +52,11 @@ def get_patients(u_id, past=False):
          'uploadTime' : row[3],
       })
    c.close()
-   return dumps(toReturn)
+
+   if toReturn == []:
+      return
+   else:
+      return dumps(toReturn)
 
 class Patients(Resource):
    def get(self):
@@ -78,15 +82,19 @@ class IndividualPatient(Resource):
 
       # Get Results
       dbResult = c.fetchone()
-      print(dbResult)
       patientData = {}
+
       for i, val in enumerate(healthItems):
-         print(val)
-         patientData[val] = dbResult[i] if dbResult[i] is not None else ''
+         if val == "firstName" or val == "lastName":
+            name = str(dbResult[i])
+            name = name.lower()
+            name = name.capitalize()
+            patientData[val] = name
+         else:
+            patientData[val] = dbResult[i] if dbResult[i] is not None else ''
 
       # Get name of uploadBy
       for i in ['uploadBy', 'reviewBy']:
-         print(i, " ", patientData[i])
          if patientData[i] != "":
             c.execute("""
                SELECT firstName, lastName
@@ -95,13 +103,6 @@ class IndividualPatient(Resource):
             """ % patientData[i])
             result = c.fetchone()
             patientData[i] = result[0] + " " + result[1]
-
-      # get xray
-      sql = """
-         SELECT xray
-         FROM xrays
-         WHERE id='%s
-      """ % pid
 
       # close db and return
       conn.close()
@@ -148,11 +149,12 @@ class NewPatient(Resource):
    def post(self):
       print(request.json)
       if (len(request.json.keys()) < 10):
+         print("err1")
          return {'success' : False}
       for item in request.json.items():
          if item == "":
+            print("err2")
             return {"success" : False }
-
 
       firstName = request.json['firstName']
       lastName = request.json['lastName']
@@ -184,37 +186,7 @@ class NewPatient(Resource):
          print(e)
          return {'success' : False}
 
-
-      # get newId
-      sql = """
-         SELECT id
-         FROM PATIENTS
-         WHERE firstName=?
-         AND lastName=?
-         AND uploadBy=?
-      """
-      data = (firstName, lastName, uploadBy)
-      try:
-         c.execute(sql, data)
-         newId = c.fetchone()[0]
-      except Exception as e:
-         print(e)
-         return {'success' : False}
-      # upload Xray
-      if 'xray' in request.json.keys():
-         xray = request.json['xray']
-         sql = """
-            INSERT INTO xrays
-            (id, xray)
-            VALUES (? , ?)
-         """
-         data = (newId, xray)
-         try:
-            c.execute(sql, data)
-            conn.commit()
-         except Exception as e:
-            print(e)
-            return {'success' : False}
+      newId = c.lastrowid
       # upload hfNote
       if 'hfNote' in request.json.keys():
          hfNote = request.json['hfNote']
@@ -232,5 +204,8 @@ class NewPatient(Resource):
             return {'success' : False}
 
       conn.close()
-      return {'success' : True}
+      return {
+         'success' : True,
+         'newId' : newId
+      }
 

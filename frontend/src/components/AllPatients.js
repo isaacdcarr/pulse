@@ -33,16 +33,12 @@ function AllPatients({ past }) {
       }
     })
     .then((response) => {
-      console.log("worked");
       setPatients(JSON.parse(response.data));
-      console.log(response);
-      console.log(patients);
     })
     .catch((err) => {
       console.log("noooo");
       console.log(err);
     });
-
   }, []);
 
   return (
