@@ -20,5 +20,5 @@ api.add_resource(NewPatient, '/patients/new')
 api.add_resource(Xray, '/xray/<int:pid>')
 
 if __name__ == '__main__':
-   app.run(debug=True)
+   app.run(debug=1)
 

@@ -191,7 +191,7 @@ function RegisterPage(props) {
 						id="repeat_password"
 						label="Enter password again"
 						name="repeat_password"
-						type="repeat_password"
+						type="password"
 						value={repeatPassword}
 						onChange={val=>setRepeatPassword(val.target.value)}
 						required

@@ -79,7 +79,7 @@ function UploadPatientData(props) {
   const [showXrayHelp, setXrayShowHelp] = useState(false);
   const [showSymptomHelp, setSymptomShowHelp] = useState(false);
   const [newId, setNewId] = useState(-1);
-  const [xrayPic, setXrayPic] = useState("");
+  const [xrayName, setXrayName] = useState("");
 
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
@@ -118,10 +118,11 @@ function UploadPatientData(props) {
   async function handleUpload(event) {
     event.preventDefault();
     console.log(xray);
+    console.log(xrayName)
     setIsLoading(true);
     if (xray !== null) {
       let formData = new FormData();
-      formData.append("chestXray",xray,"newPic");
+      formData.append("chestXray",xray,xrayName);
       try {
         var resp = await Axios.post(`/xray/${newId}`, formData);
         console.log("Here: " + resp);
@@ -136,6 +137,7 @@ function UploadPatientData(props) {
   function onDrop(picture) {
     console.log(picture);
     setXray(picture[0]);
+    setXrayName(picture[0].name)
     var reader = new FileReader();
     reader.onloadend = function() {
       var dataURL = reader.result;

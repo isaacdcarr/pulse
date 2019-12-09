@@ -61,6 +61,8 @@ function Profile(props) {
   const [diffBreath, setDiffBreath] = useState(0);
   const [fever, setFever] = useState(0);
 
+  const [otis, setOtis] = useState(false);
+
   function tmpSet(val) {
     console.log(val);
     setTmp(val);
@@ -69,6 +71,7 @@ function Profile(props) {
 
 
   useEffect(() => {
+    console.log("Setting patients get request");
     axios.get(`/patients/${props.pid}`)
     .then((response) => {
       console.log(response.data);
@@ -94,17 +97,19 @@ function Profile(props) {
       console.log(err);
     });
 
+    console.log("Setting xrays get request");
     axios.get(`/xray/${props.pid}`,{
       params: { u_id, token }
     })
     .then((response) => {
-      console.log(response);
+      console.log(response.data);
       var img = new Image();
       var resp = response.data.xray;
       if (resp !== "") {
-        console.log("resp not null img");
-        img.src = 'data:image/jpeg;base64,' + resp.substring(2, resp.length-1);
+        img.src = 'data:' + response.data.imgType + ';base64,' + resp.substring(2, resp.length-1);
         setChestXray(img.src);
+        console.log(response.data.otisDiagnosis);
+        setOtis(response.data.otisDiagnosis === 1);
       }
     })
     .catch((err) => {
@@ -318,7 +323,7 @@ function Profile(props) {
             backgroundColor: theme.palette.primary.light,
             minWidth: '60%',
             maxWidth: '80%',
-            padding: '5%'
+            padding: '5%',
           }}>
             {xrayLoading && <CircularProgress />}
             <img
@@ -328,6 +333,15 @@ function Profile(props) {
                 maxWidth: '100%'
               }}
             />
+            <br /><br />
+            <code>otis</code>'s pneumonia diagnosis:
+            <br /><br />
+            <Paper>
+              <Typography variant="h6">
+              {otis ? "Pneumonia detected" : "Pneumonia not detected"}
+              </Typography>
+            </Paper>
+
           </Paper>
           </div>
         }

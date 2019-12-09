@@ -25,7 +25,7 @@ class Xray(Resource):
       c = conn.cursor()
 
       sql = '''
-         SELECT xray
+         SELECT xray, imgType, otisDiagnosis
          FROM xrays
          where id='%s'
       ''' % pid
@@ -35,18 +35,26 @@ class Xray(Resource):
       conn.close()
 
       if result is not None:
-         return {'xray' : str(base64.b64encode(result[0]))}
+         return {
+            'xray' : str(base64.b64encode(result[0])),
+            'imgType' : result[1],
+            'otisDiagnosis' : result[2]
+         }
       else:
          return {'xray' : "" }
 
    def post(self, pid):
-      print("... Loading model")
       conn = sqlite3.connect('model/data/pulse.db')
       c = conn.cursor()
 
       # Get otis prediction
-      cnn = self.cnn = load_model('model/otis/entire_model_2019-11-19_02:45_18_singledata_quickresults_30epochs_250size.hdf5')
       img = request.files["chestXray"].read()
+      img_type = request.files["chestXray"].content_type
+
+      print("... Loading model")
+      print("... model loaded")
+
+      cnn = load_model('model/otis/entire_model_2019-11-19_02:45_18_singledata_quickresults_30epochs_250size.hdf5')
       pred_array = cnn.predict(load_img(img,250),verbose=1)
       pred = int(round(pred_array[0][0]))
       print(pred)
@@ -61,19 +69,19 @@ class Xray(Resource):
       if results:
          sql = '''
             UPDATE xrays
-            SET xray=?, otisDiagnosis=?
+            SET xray=?, otisDiagnosis=?, imgType=?
             WHERE id=?
          '''
-         data = (img, pred, pid)
+         data = (img, pred, img_type, pid)
 
       # insert entry
       else:
          sql = '''
             INSERT into xrays
-            ('id', 'xray','otisDiagnosis')
-            VALUES(?,?,?)
+            ('id', 'xray','otisDiagnosis','imgType')
+            VALUES(?,?,?,?)
          '''
-         data = (pid, img, pred)
+         data = (pid, img, pred, img_type)
 
       try:
          c.execute(sql, data)

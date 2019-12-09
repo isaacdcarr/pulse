@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS xrays(
     id                  INTEGER PRIMARY KEY,
     xray                BLOB,
     otisDiagnosis       INTEGER,
+    imgType             TEXT,
     FOREIGN KEY (id) REFERENCES patients(id)
 );
 
